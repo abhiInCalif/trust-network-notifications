@@ -1,1 +1,1 @@
-web: python api.py $PATH
+web: python api.py
