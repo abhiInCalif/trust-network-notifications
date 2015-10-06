@@ -3,7 +3,7 @@ __author__ = 'abkhanna'
 from pymongo import MongoClient
 
 def database():
-    client = MongoClient()
+    client = MongoClient("mongodb://heroku_pw3tw66l:f6u3bvhehp4es6u4emoo23snol@ds035137.mongolab.com:35137/heroku_pw3tw66l")
     db = client.trustnetwork
     return db
 
