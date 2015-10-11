@@ -6,6 +6,7 @@ import email
 
 urls = (
     '/notification/create', 'NotificationCreate',
+    '/notification/reply/', 'NotificationReply',
     '/notification/reply', 'NotificationReply'
 )
 
@@ -48,7 +49,8 @@ class NotificationCreate:
 class NotificationReply:
     def POST(self):
         data = web.input()
-        print data['stripped-text']
+        data['stripped-text'] # this is the message data that we wanted to deal with....
+
 
 # to run the notifications service. Meant to run on another machine ideally.
 # if you don't have the manpower to run it on a different system, can just
