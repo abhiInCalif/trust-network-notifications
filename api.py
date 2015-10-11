@@ -47,18 +47,8 @@ class NotificationCreate:
 
 class NotificationReply:
     def POST(self):
-        web.header('Content-type', 'application/json')
-        data = web.data()
-        email_message = email.message_from_string(data)
-        if email_message.is_multipart():
-            for payload in email_message.get_payload():
-                # if payload.is_multipart(): ...
-                if payload.get('name') == "stripped-text":
-                    print payload.get_payload()
-        else:
-            print email_message.get_payload()
-
-        print "reached end"
+        data = web.input()
+        print data['stripped-text']
 
 # to run the notifications service. Meant to run on another machine ideally.
 # if you don't have the manpower to run it on a different system, can just
