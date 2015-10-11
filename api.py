@@ -49,8 +49,9 @@ class NotificationCreate:
 class NotificationReply:
     def POST(self):
         data = web.input()
-        print data['stripped-text'] # this is the message data that we wanted to deal with....
-        
+        print data
+        email_body = data['stripped-text'] # this is the message data that we wanted to deal with....
+        # need to forward this to the
 
 
 # to run the notifications service. Meant to run on another machine ideally.
