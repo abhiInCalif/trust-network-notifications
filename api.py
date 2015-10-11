@@ -95,7 +95,7 @@ def transformToDictionary(data):
         print question_data
         if len(question_data) == 0:
             return {} # error case
-
+        question_data = question_data[0]
         asker_urn = question_data.get('asker_urn', '')
         output_data['asker_urn'] = asker_urn
         # if actor_email exists in the system then we use that else, we need to create a dummy id
@@ -103,7 +103,7 @@ def transformToDictionary(data):
         print contact_data
         if len(contact_data) == 0:
             return {} # error case because everybody getting an email from TrustNetwork must be a contact
-
+        contact_data = contact_data[0]
         actor_urn = contact_data.get('member_urn', '')
         output_data['actor_urn'] = actor_urn
         output_data['replyText'] = email_body
