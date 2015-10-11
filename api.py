@@ -65,6 +65,7 @@ class NotificationReply:
                     "replyText": dataMapping['replyText']
                 }
             }
+            print dataForRequest
             print "Making request to Trust Network core service"
             requests.post(url="http://" + "trust-network.herokuapp.com" + "/respond/reply", data=dataForRequest)
         else:
@@ -106,7 +107,7 @@ def transformToDictionary(data):
         contact_data = contact_data[0]
         actor_urn = contact_data.get('member_urn', '')
         output_data['actor_urn'] = actor_urn
-        output_data['replyText'] = email_body
+        output_data['replyText'] = email_body.replace("\r\n", " ")
         output_data['isYes'] = "1"
         output_data['isNo'] = "0"
 
