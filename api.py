@@ -91,7 +91,7 @@ def transformToDictionary(data):
     if ticket_urn:
         output_data['question_urn'] = ticket_urn
         # add the asker_urn data
-        question_data = Store.Question.fetch(questionUrn=ticket_urn)
+        question_data = list(Store.Question.fetch(questionUrn=ticket_urn))
         print question_data
         if len(question_data) == 0:
             return {} # error case
@@ -99,7 +99,7 @@ def transformToDictionary(data):
         asker_urn = question_data.get('asker_urn', '')
         output_data['asker_urn'] = asker_urn
         # if actor_email exists in the system then we use that else, we need to create a dummy id
-        contact_data = Store.Contact.fetchByEmail(email_from)
+        contact_data = list(Store.Contact.fetchByEmail(email_from))
         print contact_data
         if len(contact_data) == 0:
             return {} # error case because everybody getting an email from TrustNetwork must be a contact
