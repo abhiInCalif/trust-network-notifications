@@ -53,6 +53,7 @@ class NotificationReply:
         data = web.input()
         print data
         dataMapping = transformToDictionary(data)
+        print "This is dataMapping: " + str(dataMapping)
         if dataMapping:
             dataForRequest = {
                 "askerUrn": dataMapping['asker_urn'],
@@ -74,6 +75,7 @@ def transformToDictionary(data):
     # transforms the email into a dictionary with standard keys
     output_data = {}
     email_from_list = re.findall(r'\<([^]]*)\>', data['from'])
+    print email_from_list
     email_from = ''
     if len(email_from_list) > 0:
         email_from = email_from_list[0]
@@ -81,6 +83,7 @@ def transformToDictionary(data):
     full_email_body = data['body-plain']
     email_body = data['stripped-text'] # this is the message data that we wanted to deal with....
     regex_match = re.search(r'^Ticket #:.*\\r\\n', full_email_body)
+    print regex_match
     if regex_match:
         match_string = regex_match.group(0)
         match_string = match_string[len("Ticket #:") + 1:len(match_string) - 3]
@@ -88,6 +91,7 @@ def transformToDictionary(data):
         output_data['question_urn'] = question_urn
         # add the asker_urn data
         question_data = Store.Question.fetch(questionUrn=question_urn)
+        print question_data
         if len(question_data) == 0:
             return {} # error case
 
@@ -95,6 +99,7 @@ def transformToDictionary(data):
         output_data['asker_urn'] = asker_urn
         # if actor_email exists in the system then we use that else, we need to create a dummy id
         contact_data = Store.Contact.fetchByEmail(email_from)
+        print contact_data
         if len(contact_data) == 0:
             return {} # error case because everybody getting an email from TrustNetwork must be a contact
 
