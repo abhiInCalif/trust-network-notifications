@@ -63,9 +63,9 @@ class NotificationReply:
                 "actorUrn": dataMapping['actor_urn'],
                 "questionUrn": dataMapping['question_urn'],
                 "data": '{' +
-                        '"isYes": ' + dataMapping['isYes'] + ',' +
-                        '"isNo":' + dataMapping['isNo'] + ',' +
-                        '"replyText":' + dataMapping['replyText'] +
+                        '"isYes": "' + dataMapping['isYes'] + '",' +
+                        '"isNo":"' + dataMapping['isNo'] + '",' +
+                        '"replyText":"' + dataMapping['replyText'] + '"' +
                         '}'
             }
             print dataForRequest
