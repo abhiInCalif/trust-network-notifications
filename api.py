@@ -49,13 +49,14 @@ class NotificationReply:
     def POST(self):
         web.header('Content-type', 'application/json')
         data = web.data()
-        b = email.message_from_string(data)
-        if b.is_multipart():
-            for payload in b.get_payload():
+        email_message = email.message_from_string(data)
+        if email_message.is_multipart():
+            for payload in email_message.get_payload():
                 # if payload.is_multipart(): ...
-                print payload.get_payload()
+                if payload.get('name') == "stripped-text":
+                    print payload.get_payload()
         else:
-            print b.get_payload()
+            print email_message.get_payload()
 
         print "reached end"
 
