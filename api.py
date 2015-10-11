@@ -12,6 +12,7 @@ urls = (
     '/notification/reply', 'NotificationReply'
 )
 
+
 def get_message_channel(urn):
     message_channels = {
         "question": [channels.EmailChannel()]
@@ -23,6 +24,7 @@ def get_message_channel(urn):
         return []
 
     return message_channels.get(urnIdentifier, [])
+
 
 class NotificationCreate:
     def POST(self):
@@ -46,7 +48,8 @@ class NotificationCreate:
                     "askerUrn": asker_urn,
                     "text": text,
                     "urn": urn
-            })
+                    })
+
 
 class NotificationReply:
     def POST(self):
@@ -59,18 +62,17 @@ class NotificationReply:
                 "askerUrn": dataMapping['asker_urn'],
                 "actorUrn": dataMapping['actor_urn'],
                 "questionUrn": dataMapping['question_urn'],
-                "data": {
-                    "isYes": dataMapping['isYes'],
-                    "isNo": dataMapping['isNo'],
-                    "replyText": dataMapping['replyText']
-                }
+                "data": '{' +
+                        '"isYes": ' + dataMapping['isYes'] + ',' +
+                        '"isNo":' + dataMapping['isNo'] + ',' +
+                        '"replyText":' + dataMapping['replyText'] +
+                        '}'
             }
             print dataForRequest
             print "Making request to Trust Network core service"
             requests.post(url="http://" + "trust-network.herokuapp.com" + "/respond/reply", data=dataForRequest)
         else:
             print "Dropped email response!"
-
 
 
 def transformToDictionary(data):
@@ -84,7 +86,7 @@ def transformToDictionary(data):
 
     full_email_body = data['body-plain']
     print full_email_body
-    email_body = data['stripped-text'] # this is the message data that we wanted to deal with....
+    email_body = data['stripped-text']  # this is the message data that we wanted to deal with....
     ticket_till_end_index = full_email_body.find("Ticket #:")
     ticket_number_plus_tag_index = full_email_body.find("\r\n", ticket_till_end_index)
     ticket_urn = full_email_body[ticket_till_end_index + len("Ticket #:") + 1: ticket_number_plus_tag_index]
@@ -95,7 +97,7 @@ def transformToDictionary(data):
         question_data = list(Store.Question.fetch(questionUrn=ticket_urn))
         print question_data
         if len(question_data) == 0:
-            return {} # error case
+            return {}  # error case
         question_data = question_data[0]
         asker_urn = question_data.get('asker_urn', '')
         output_data['asker_urn'] = asker_urn
@@ -103,7 +105,7 @@ def transformToDictionary(data):
         contact_data = list(Store.Contact.fetchByEmail(email_from))
         print contact_data
         if len(contact_data) == 0:
-            return {} # error case because everybody getting an email from TrustNetwork must be a contact
+            return {}  # error case because everybody getting an email from TrustNetwork must be a contact
         contact_data = contact_data[0]
         actor_urn = contact_data.get('member_urn', '')
         output_data['actor_urn'] = actor_urn
@@ -112,7 +114,6 @@ def transformToDictionary(data):
         output_data['isNo'] = "0"
 
     return output_data
-
 
 # to run the notifications service. Meant to run on another machine ideally.
 # if you don't have the manpower to run it on a different system, can just
