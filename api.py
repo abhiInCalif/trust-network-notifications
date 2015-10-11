@@ -44,8 +44,11 @@ class NotificationCreate:
                     "urn": urn
             })
 
-
-
+class NotificationReply:
+    def POST(self):
+        web.header('Content-type', 'application/json')
+        data = web.data()
+        print data
 
 # to run the notifications service. Meant to run on another machine ideally.
 # if you don't have the manpower to run it on a different system, can just
