@@ -2,6 +2,7 @@ __author__ = 'abkhanna'
 
 import web
 import channels
+import email
 
 urls = (
     '/notification/create', 'NotificationCreate',
@@ -48,7 +49,15 @@ class NotificationReply:
     def POST(self):
         web.header('Content-type', 'application/json')
         data = web.data()
-        print data
+        b = email.message_from_string(data)
+        if b.is_multipart():
+            for payload in b.get_payload():
+                # if payload.is_multipart(): ...
+                print payload.get_payload()
+        else:
+            print b.get_payload()
+
+        print "reached end"
 
 # to run the notifications service. Meant to run on another machine ideally.
 # if you don't have the manpower to run it on a different system, can just
