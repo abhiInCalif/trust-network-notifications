@@ -7,6 +7,24 @@ def database():
     db = client.heroku_pw3tw66l
     return db
 
+class Question:
+    @staticmethod
+    def put(key, data):
+        doc = {
+            '_id': str(key),
+        }
+        doc.update(key.getKeyParts())
+        doc.update(data)
+        return database().Question.update({'_id': str(key)}, doc, upsert=True)
+
+    @staticmethod
+    def fetch(questionUrn):
+        return database().Question.find({'question_urn': questionUrn})
+
+    @staticmethod
+    def get(key):
+        return database().Question.find({'_id': str(key)})[0]
+
 class Member:
     @staticmethod
     def put(key, data):
@@ -43,3 +61,7 @@ class Contact:
     def get(key):
         cursor_list = list(database().Contact.find({'_id': str(key)}))
         return cursor_list[0] if len(cursor_list) > 0 else {}
+
+    @staticmethod
+    def fetchByEmail(emailAddress):
+        return database().Contact.find({'emailAddress': str(emailAddress)})
