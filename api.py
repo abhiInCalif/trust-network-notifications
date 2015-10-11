@@ -67,7 +67,8 @@ class NotificationReply:
             }
             print "Making request to Trust Network core service"
             requests.post(url="http://" + "trust-network.herokuapp.com" + "/respond/reply", data=dataForRequest)
-
+        else:
+            print "Dropped email response!"
 
 
 
@@ -81,16 +82,16 @@ def transformToDictionary(data):
         email_from = email_from_list[0]
 
     full_email_body = data['body-plain']
+    print full_email_body
     email_body = data['stripped-text'] # this is the message data that we wanted to deal with....
-    regex_match = re.search(r'^Ticket #:.*\\r\\n', full_email_body)
-    print regex_match
-    if regex_match:
-        match_string = regex_match.group(0)
-        match_string = match_string[len("Ticket #:") + 1:len(match_string) - 3]
-        question_urn = match_string
-        output_data['question_urn'] = question_urn
+    ticket_till_end_index = full_email_body.find("Ticket #:")
+    ticket_number_plus_tag_index = full_email_body.find("\r\n", ticket_till_end_index)
+    ticket_urn = full_email_body[ticket_till_end_index + len("Ticket #:") + 1: ticket_number_plus_tag_index]
+    print ticket_urn
+    if ticket_urn:
+        output_data['question_urn'] = ticket_urn
         # add the asker_urn data
-        question_data = Store.Question.fetch(questionUrn=question_urn)
+        question_data = Store.Question.fetch(questionUrn=ticket_urn)
         print question_data
         if len(question_data) == 0:
             return {} # error case
