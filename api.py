@@ -49,7 +49,8 @@ class NotificationCreate:
 class NotificationReply:
     def POST(self):
         data = web.input()
-        data['stripped-text'] # this is the message data that we wanted to deal with....
+        print data['stripped-text'] # this is the message data that we wanted to deal with....
+        
 
 
 # to run the notifications service. Meant to run on another machine ideally.
