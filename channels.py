@@ -32,7 +32,7 @@ class EmailChannel(Channel):
                       "to": recipient_email,
                       "subject": recipient_name + ", There is a question from " + asker_name + " awaiting your response!",
                       "text": asker_name + "'s questions is:\n" + text + "\n\nTrustNetwork: To respond to the question hit reply."
-                            + "\n\n" + " Ticket #: " + question_urn
+                            + "\n\n" + " Ticket #: " + question_urn + "\r\n"
             })
         else:
             pass  # can't do anything if they don't have an email.
