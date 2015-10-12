@@ -75,6 +75,7 @@ class NotificationReply:
             print "Dropped email response!"
 
 
+# Transforms the email to dictionary.
 def transformToDictionary(data):
     # transforms the email into a dictionary with standard keys
     output_data = {}

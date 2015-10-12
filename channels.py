@@ -29,7 +29,7 @@ class EmailChannel(Channel):
             requests.post("https://api.mailgun.net/v3/sandbox6959a19ef100472fb32d158553348ead.mailgun.org/messages",
                 auth=("api", "key-37a0e041a9b9e58de0f1956618fa850c"),
                 data={"from": "TrustNetwork <postmaster@sandbox6959a19ef100472fb32d158553348ead.mailgun.org>",
-                      "to": "abhi1994@gmail.com",
+                      "to": recipient_email,
                       "subject": recipient_name + ", There is a question from " + asker_name + " awaiting your response!",
                       "text": asker_name + "'s questions is:\n" + text + "\n\nTrustNetwork: To respond to the question hit reply."
                             + "\n\n" + " Ticket #: " + question_urn
