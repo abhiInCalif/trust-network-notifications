@@ -86,7 +86,7 @@ def transformToDictionary(data):
         email_from = email_from_list[0]
 
     full_email_body = data['body-plain']
-    print full_email_body
+    # print full_email_body
     email_body = data['stripped-text']  # this is the message data that we wanted to deal with....
     ticket_till_end_index = full_email_body.find("Ticket #:")
     ticket_number_plus_tag_index = full_email_body.find("\r\n", ticket_till_end_index)
