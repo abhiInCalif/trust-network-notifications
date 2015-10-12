@@ -90,7 +90,10 @@ def transformToDictionary(data):
     email_body = data['stripped-text']  # this is the message data that we wanted to deal with....
     ticket_till_end_index = full_email_body.find("Ticket #:")
     ticket_number_plus_tag_index = full_email_body.find("\r\n", ticket_till_end_index)
-    ticket_urn = full_email_body[ticket_till_end_index + len("Ticket #:") + 1: ticket_number_plus_tag_index]
+    if ticket_number_plus_tag_index != -1:
+        ticket_urn = full_email_body[ticket_till_end_index + len("Ticket #:") + 1: ticket_number_plus_tag_index]
+    else:
+        ticket_urn = full_email_body[ticket_till_end_index + len("Ticket #:") + 1:]
     print ticket_urn
     if ticket_urn:
         output_data['question_urn'] = ticket_urn
